@@ -1,5 +1,7 @@
-var char = []; // Strokeのリスト
+var char_stroke = []; // Strokeのリスト
 var new_stroke;
+
+var THR_LENGTH = 30;
 
 function Point( x, y ){
 	this.x = x;
@@ -16,16 +18,17 @@ function Stroke(){
 function setup(){
 	createCanvas(500, 400);
 	strokeWeight(3);
+	new_stroke = [];
 }
 
 
 function draw(){
-	//ellipse(100, 100, 100, 100);
-	//rect(300, 300, 50, 50);
-	
-	for( var si = 0 ; si < char.length ; si ++ ){
-		for( var pi = 0 ; pi < char[si].p_list.length ; pi ++ ){
-			point( char[si].p_list[pi].x, char[si].p_list[pi].y );
+	background(255, 255, 255);
+
+	for( var si = 0 ; si < char_stroke.length ; si ++ ){
+		var s = char_stroke[si];
+		for( var pi = 0 ; pi < s.p_list.length ; pi ++ ){
+			point( s.p_list[pi].x, s.p_list[pi].y );
 		}
 	}
 	
@@ -33,16 +36,25 @@ function draw(){
 
 
 function mousePressed(){
-	new_stroke = new Stroke();
+	//new_stroke = new Stroke();
+	char_stroke.push( new Stroke() );
 }
 
 
 function mouseDragged(){
-	new_stroke.push( new Point( mouseX, mouseY ) );
-	console.log( new Point( mouseX, mouseY ) );
+	var last = char_stroke.length-1;
+	char_stroke[last].p_list.push( new Point( mouseX, mouseY ) );
+	//console.log( new Point( mouseX, mouseY ) );
 }
 
 
 function mouseReleased(){
-	char.push( new_stroke );
+	var last = char_stroke.length-1;
+	var len_last = char_stroke[last].p_list.length;
+
+	if( len_last < THR_LENGTH ){
+		char_stroke.pop();
+	}
+
+	//char_stroke.push( new_stroke );
 }
