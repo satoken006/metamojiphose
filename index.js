@@ -1,7 +1,8 @@
 var char_stroke = []; // Strokeのリスト
 var new_stroke;
 
-var THR_LENGTH = 30;
+var THR_LENGTH = 20;
+var spline;
 
 function Point( x, y ){
 	this.x = x;
@@ -17,8 +18,10 @@ function Stroke(){
 
 function setup(){
 	createCanvas(500, 400);
-	strokeWeight(3);
+	strokeWeight(2);
+
 	new_stroke = [];
+	spline = new Spline();
 }
 
 
@@ -31,12 +34,10 @@ function draw(){
 			point( s.p_list[pi].x, s.p_list[pi].y );
 		}
 	}
-	
 }
 
 
 function mousePressed(){
-	//new_stroke = new Stroke();
 	char_stroke.push( new Stroke() );
 }
 
@@ -44,7 +45,6 @@ function mousePressed(){
 function mouseDragged(){
 	var last = char_stroke.length-1;
 	char_stroke[last].p_list.push( new Point( mouseX, mouseY ) );
-	//console.log( new Point( mouseX, mouseY ) );
 }
 
 
@@ -54,7 +54,9 @@ function mouseReleased(){
 
 	if( len_last < THR_LENGTH ){
 		char_stroke.pop();
+	}else{
+		var list = char_stroke[last].p_list;
+		var list2 = spline.getSpline( list, 2 );
+		char_stroke[last].p_list = list2;
 	}
-
-	//char_stroke.push( new_stroke );
 }
