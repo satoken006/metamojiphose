@@ -6,7 +6,7 @@ var fourier_list = [];
 var app_input = function(p){
 	var THR_LENGTH = 20;
 	var spline;
-	var char_stroke = []; // Strokeのリスト
+	var char_stroke = [];
 	var new_stroke;
 
 	p.setup = function(){
@@ -49,16 +49,15 @@ var app_input = function(p){
 		}
 	}
 
-	// TODO: ボタンを押したら fourier_listに保存されるようにする
 	p.keyPressed = function(){
 		if( p.keyCode == p.DOWN_ARROW ){
 		}
 	}
-
+	/*
 	p.sayHello = function(){
 		console.log("helooooooooo");
 	}
-
+	*/
 	p.sendFourierSeries = function(){
 		for(let i = 0; i < char_stroke.length; i++){
 			var f = new Fourier( char_stroke[i].p_list.length );
@@ -74,15 +73,29 @@ var app_input = function(p){
  * create canvas to OUTPUT strokes
  */
 var app_output = function(p){
+	var W = 300;
+
 	var char_stroke = [];
 
 	p.setup = function(){
-		p.createCanvas(300, 300);
+		p.createCanvas(W * 2, W * 2);
 		p.strokeWeight(2.5);
 	}
 
 	p.draw = function(){
 		p.background(204, 255, 204);
+		p.noStroke();
+
+		p.fill(204, 255, 255);
+		p.rect(0, W, W, W);
+
+		p.fill(255, );
+		p.rect(W, 0, W, W);
+
+		p.fill(204);
+		p.rect(W, W, W, W);
+		p.stroke(0);
+
 		//console.log( char_stroke.length);
 		if( char_stroke.length == 0 ) return;
 
@@ -104,14 +117,10 @@ var app_output = function(p){
 	}
 }
 
-/**
- *
- */
 function Point( x, y ){
 	this.x = x;
 	this.y = y;
 }
-
 
 function Stroke(){
 	this.p_list = [];
