@@ -56,13 +56,20 @@ var app_input = function(p){
 	// TODO: ボタンを押したら fourier_listに保存されるようにする
 	p.keyPressed = function(){
 		if( p.keyCode == p.DOWN_ARROW ){
-			for(let i = 0; i < char_stroke.length; i++){
-				var f = new Fourier( char_stroke[i].p_list.length );
-				var list = char_stroke[i].p_list;
-				f.expandFourierSeries(list, 10);
-				fourier_list.push(f);
-				f.restorePoints();
-			}
+		}
+	}
+
+	p.sayHello = function(){
+		console.log("helooooooooo");
+	}
+
+	p.sendFourierSeries = function(){
+		for(let i = 0; i < char_stroke.length; i++){
+			var f = new Fourier( char_stroke[i].p_list.length );
+			var list = char_stroke[i].p_list;
+			f.expandFourierSeries(list, 10);
+			fourier_list.push(f);
+			f.restorePoints();
 		}
 	}
 }
@@ -77,9 +84,7 @@ var app_output = function(p){
 
 	p.draw = function(){
 		p.background(204, 255, 204);
-		if(){
 
-		}
 	}
 }
 
@@ -96,5 +101,5 @@ function Stroke(){
 	this.p_list = [];
 }
 
-new p5(  app_input,  "canvas_input" );
+var canvas_input = new p5(  app_input,  "canvas_input" );
 new p5( app_output, "canvas_output" );
