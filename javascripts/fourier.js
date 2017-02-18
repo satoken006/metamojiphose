@@ -39,13 +39,16 @@ Fourier.prototype.expandFourierSeries = function( _arrayPt, _iMaxDegree ){
         this.m_bY[k] *= 2/_iNumOfUnit;
     }
 
-    console.log(this.m_aX);
-    console.log(this.m_bX);
+    //console.log(this.m_aX);
+    //console.log(this.m_bX);
     //console.log("");
-    console.log(this.m_aY);
-    console.log(this.m_bY);
+    //console.log(this.m_aY);
+    //console.log(this.m_bY);
 }
 
+/**
+ * restore array of points from Frouier series
+ */
 Fourier.prototype.restorePoints = function(){
     var _listPt = [];
     var k_MAX = this.m_aX.length-1;
@@ -67,9 +70,10 @@ Fourier.prototype.restorePoints = function(){
         _listPt.push(p_restored);
         //println( p_restored.x + ", " + p_restored.y );
     }
-    
+    /*
     for(let i = 0; i < _listPt.length; i++){
         console.log( _listPt[i] );
     }
+    */
     return _listPt;
 }
