@@ -1,10 +1,10 @@
-var fourier_list = [];
+var fourier_chars = [];
 
 /**
  * create canvas to INPUT strokes
  */
 var app_input = function(p){
-	var THR_LENGTH = 20;
+	var THR_LENGTH = 10;
 	var spline;
 	var char_stroke = [];
 	var new_stroke;
@@ -50,6 +50,12 @@ var app_input = function(p){
 	}
 
 	p.sendFourierSeries = function(){
+		if( fourier_chars.length > 0 ){
+			if( fourier_chars[0].length != char_stroke.length ) return;
+		}
+
+		let last = fourier_chars.length-1;
+		var fourier_list = [];
 		for(let i = 0; i < char_stroke.length; i++){
 			var f = new Fourier( char_stroke[i].p_list.length );
 			var list = char_stroke[i].p_list;
@@ -57,6 +63,7 @@ var app_input = function(p){
 			fourier_list.push(f);
 			f.restorePoints();
 		}
+		fourier_chars.push( fourier_list );
 		char_stroke = [];
 	}
 }
@@ -66,7 +73,6 @@ var app_input = function(p){
  */
 var app_output = function(p){
 	var W = 300;
-
 	var char_stroke = [];
 
 	p.setup = function(){
@@ -75,6 +81,7 @@ var app_output = function(p){
 	}
 
 	p.draw = function(){
+		p.colorMode(p.RGB, 255);
 		p.background(204, 255, 204);
 		p.noStroke();
 		p.fill(255, 204, 228); // fourier y
@@ -85,38 +92,56 @@ var app_output = function(p){
 		p.rect(W, W, W, W);
 		p.stroke(0);
 
-		//console.log( char_stroke.length);
 		if( char_stroke.length == 0 ) return;
 
+		/**
+		 * export strokes
+		 */
 		p.strokeWeight(2.5);
 		for(let si = 0; si < char_stroke.length ; si++){
+			var col = parseFloat(si * 100) / char_stroke.length;
 			var list = char_stroke[si].p_list;
+			p.colorMode(p.HSB, 100);
+			p.stroke(col, 100, 100);
 			for( let pi = 0; pi < list.length; pi++){
 				p.point( list[pi].x, list[pi].y );
 			}
 		}
 
+		/**
+		 * draw circular motions
+		 */
+		var last = fourier_chars.length-1;
+		var fourier_list = fourier_chars[last];
+
 		p.strokeWeight(1);
 		for(let i = 0; i < fourier_list.length; i++){
+			var col = parseFloat(i * 100) / fourier_list.length;
 			var f = fourier_list[i];
-			var k_MAX = f.m_aX.length;
 			var t = 2 * Math.PI * (p.frameCount % f.len_points)/f.len_points - Math.PI;
 
 			p.noFill();
 		    p.push();
 		    p.translate( f.m_aX[0]/2, p.height * 3/4 );
+		    p.colorMode(p.HSB, 100);
+		    p.stroke(col, 100, 100);
 		    p.nextCircleX(1, f, t);
 		    p.pop();
 		    p.push();
 		    p.translate(p.width * 3/4, f.m_aY[0]/2);
+		    p.colorMode(p.HSB, 100);
+		    p.stroke(col, 100, 100);
 		    p.nextCircleY(1, f, t);
 		    p.pop();
 		}
 	}
 
 	p.createStrokes = function(){
-		for(let i = 0; i < fourier_list.length; i++){
-			var f = fourier_list[i];
+		var last = fourier_chars.length-1;
+		var char_last = fourier_chars[last];
+		char_stroke = [];
+		for(let i = 0; i < char_last.length; i++){
+			var f = char_last[i];
 			var s = new Stroke();
 			s.p_list = f.restorePoints();
 			char_stroke.push(s);
@@ -129,9 +154,9 @@ var app_output = function(p){
 		let r_bX = _f.m_bX[_k];
 
 		p.strokeWeight(1);
-		p.stroke(0);
+		//p.stroke(0);
 		p.ellipse(0, 0, Math.abs(r_aX) * 2, Math.abs(r_aX) * 2);
-		p.stroke(255, 128, 128);
+		//p.stroke(255, 128, 128);
 		p.line(0, 0, r_aX * Math.cos(_k*_t), r_aX * Math.sin(_k*_t));	// X方向の線: a(k) * cos(kt)
 		p.push();
 		p.translate( r_aX * Math.cos(_k*_t), r_aX * Math.sin(_k*_t) );	// X方向移動: a(k) * cos(kt)
@@ -144,7 +169,7 @@ var app_output = function(p){
 		}else{
 			p.line( 0, -W*2, 0, W*2 );
 			p.strokeWeight(7);
-			p.stroke(255, 0, 0);
+			//p.stroke(255, 0, 0);
 			p.point(0, 0);
 		}
 		p.pop();
@@ -157,9 +182,9 @@ var app_output = function(p){
 		let r_bY  = _f.m_bY[_k];
 
 		p.strokeWeight(1);
-		p.stroke(0);
+		//p.stroke(0);
 		p.ellipse(0, 0, Math.abs(r_aY) * 2, Math.abs(r_aY) * 2);
-		p.stroke(128, 128, 255);
+		//p.stroke(128, 128, 255);
 		p.line(0, 0, r_aY * Math.sin(_k*_t), r_aY * Math.cos(_k*_t));	// Y方向の線: a(k) * cos(kt)
 		p.push();
 		p.translate( r_aY * Math.sin(_k*_t), r_aY * Math.cos(_k*_t) );	// Y方向移動: a(k) * cos(kt)
@@ -172,7 +197,7 @@ var app_output = function(p){
 		}else{
 			p.line(-W*2, 0, W*2, 0);
 			p.strokeWeight(7);
-			p.stroke(0, 0, 255);
+			//p.stroke(0, 0, 255);
 			p.point(0, 0);
 		}
 		p.pop();
