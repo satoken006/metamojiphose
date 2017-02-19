@@ -57,6 +57,7 @@ var app_input = function(p){
 			fourier_list.push(f);
 			f.restorePoints();
 		}
+		char_stroke = [];
 	}
 }
 
@@ -96,19 +97,21 @@ var app_output = function(p){
 		}
 
 		p.strokeWeight(1);
-		var f = fourier_list[0];
-		var k_MAX = f.m_aX.length;
-		var t = 2 * Math.PI * (p.frameCount % f.len_points)/f.len_points - Math.PI;
+		for(let i = 0; i < fourier_list.length; i++){
+			var f = fourier_list[i];
+			var k_MAX = f.m_aX.length;
+			var t = 2 * Math.PI * (p.frameCount % f.len_points)/f.len_points - Math.PI;
 
-		p.noFill();
-	    p.push();
-	    p.translate( f.m_aX[0]/2, p.height * 3/4 );
-	    p.nextCircleX(1, f, t);
-	    p.pop();
-	    p.push();
-	    p.translate(p.width * 3/4, f.m_aY[0]/2);
-	    p.nextCircleY(1, f, t);
-	    p.pop();
+			p.noFill();
+		    p.push();
+		    p.translate( f.m_aX[0]/2, p.height * 3/4 );
+		    p.nextCircleX(1, f, t);
+		    p.pop();
+		    p.push();
+		    p.translate(p.width * 3/4, f.m_aY[0]/2);
+		    p.nextCircleY(1, f, t);
+		    p.pop();
+		}
 	}
 
 	p.createStrokes = function(){
@@ -118,6 +121,34 @@ var app_output = function(p){
 			s.p_list = f.restorePoints();
 			char_stroke.push(s);
 		}
+	}
+
+	p.nextCircleX = function( _k /* 現在の次数 */, _f /* フーリエ */, _t /* 媒介変数 */ ){
+		let COEF_MAX = _f.m_aX.length;
+		let r_aX = _f.m_aX[_k];
+		let r_bX = _f.m_bX[_k];
+
+		p.strokeWeight(1);
+		p.stroke(0);
+		p.ellipse(0, 0, Math.abs(r_aX) * 2, Math.abs(r_aX) * 2);
+		p.stroke(255, 128, 128);
+		p.line(0, 0, r_aX * Math.cos(_k*_t), r_aX * Math.sin(_k*_t));	// X方向の線: a(k) * cos(kt)
+		p.push();
+		p.translate( r_aX * Math.cos(_k*_t), r_aX * Math.sin(_k*_t) );	// X方向移動: a(k) * cos(kt)
+		p.ellipse(0, 0, Math.abs(r_bX) * 2, Math.abs(r_bX) * 2);
+		p.line(0, 0, r_bX * Math.sin(_k*_t), r_bX * Math.cos(_k*_t));	// X方向の線: b(k) * sin(kt)
+		p.push();
+		p.translate( r_bX * Math.sin(_k*_t), r_bX * Math.cos(_k*_t) );	// X方向移動: b(k) * sin(kt)
+		if( _k <= COEF_MAX ){
+			this.nextCircleX( _k+1, _f, _t );
+		}else{
+			p.line( 0, -W*2, 0, W*2 );
+			p.strokeWeight(7);
+			p.stroke(255, 0, 0);
+			p.point(0, 0);
+		}
+		p.pop();
+		p.pop();
 	}
 
 	p.nextCircleY = function( _k /* 現在の次数 */, _f /* フーリエ */, _t /* 媒介変数 */ ){
@@ -148,33 +179,6 @@ var app_output = function(p){
 		p.pop();
 	}
 
-	p.nextCircleX = function( _k /* 現在の次数 */, _f /* フーリエ */, _t /* 媒介変数 */ ){
-		let COEF_MAX = _f.m_aX.length;
-		let r_aX = _f.m_aX[_k];
-		let r_bX = _f.m_bX[_k];
-
-		p.strokeWeight(1);
-		p.stroke(0);
-		p.ellipse(0, 0, Math.abs(r_aX) * 2, Math.abs(r_aX) * 2);
-		p.stroke(255, 128, 128);
-		p.line(0, 0, r_aX * Math.cos(_k*_t), r_aX * Math.sin(_k*_t));            // X方向の線: a(k) * cos(kt)
-		p.push();
-		p.translate( r_aX * Math.cos(_k*_t), r_aX * Math.sin(_k*_t) );       // X方向移動: a(k) * cos(kt)
-		p.ellipse(0, 0, Math.abs(r_bX) * 2, Math.abs(r_bX) * 2);
-		p.line(0, 0, r_bX * Math.sin(_k*_t), r_bX * Math.cos(_k*_t));        // X方向の線: b(k) * sin(kt)
-		p.push();
-		p.translate( r_bX * Math.sin(_k*_t), r_bX * Math.cos(_k*_t) );   // X方向移動: b(k) * sin(kt)
-		if( _k <= COEF_MAX ){
-			this.nextCircleX( _k+1, _f, _t );
-		}else{
-			p.line( 0, -W*2, 0, W*2 );
-			p.strokeWeight(7);
-			p.stroke(255, 0, 0);
-			p.point(0, 0);
-		}
-		p.pop();
-		p.pop();
-	}
 }
 
 function Point( x, y ){
