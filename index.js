@@ -68,9 +68,6 @@ var app_input = function(p){
 	}
 }
 
-/**
- * create canvas to OUTPUT strokes
- */
 var app_output = function(p){
 	var W = 300;
 	var char_stroke = [];
