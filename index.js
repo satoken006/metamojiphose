@@ -99,17 +99,15 @@ var app_output = function(p){
 		var f = fourier_list[0];
 		var k_MAX = f.m_aX.length;
 		var t = 2 * Math.PI * (p.frameCount % f.len_points)/f.len_points - Math.PI;
+
 		p.noFill();
-		/*
-	    push();
-	    translate( f.m_aX[0]/2, p.height * 3/4 );
-	    this.nextCircleX( 1, k_MAX, t);
-	    pop();
-	    */
+	    p.push();
+	    p.translate( f.m_aX[0]/2, p.height * 3/4 );
+	    p.nextCircleX(1, f, t);
+	    p.pop();
 	    p.push();
 	    p.translate(p.width * 3/4, f.m_aY[0]/2);
-	    //console.log(f);
-	    p.nextCircleY( 1, f, t);
+	    p.nextCircleY(1, f, t);
 	    p.pop();
 	}
 
@@ -123,19 +121,18 @@ var app_output = function(p){
 	}
 
 	p.nextCircleY = function( _k /* 現在の次数 */, _f /* フーリエ */, _t /* 媒介変数 */ ){
-		//console.log(_t);
-		var COEF_MAX = _f.m_aY.length;
-		var r_aY  = _f.m_aY[_k];
-		var r_bY  = _f.m_bY[_k];
+		let COEF_MAX = _f.m_aY.length;
+		let r_aY  = _f.m_aY[_k];
+		let r_bY  = _f.m_bY[_k];
 
 		p.strokeWeight(1);
 		p.stroke(0);
-		p.ellipse( 0, 0, Math.abs(r_aY) * 2, Math.abs(r_aY) * 2 );
+		p.ellipse(0, 0, Math.abs(r_aY) * 2, Math.abs(r_aY) * 2);
 		p.stroke(128, 128, 255);
 		p.line(0, 0, r_aY * Math.sin(_k*_t), r_aY * Math.cos(_k*_t));	// Y方向の線: a(k) * cos(kt)
 		p.push();
 		p.translate( r_aY * Math.sin(_k*_t), r_aY * Math.cos(_k*_t) );	// Y方向移動: a(k) * cos(kt)
-		p.ellipse( 0, 0, Math.abs(r_bY) * 2, Math.abs(r_bY) * 2 );
+		p.ellipse(0, 0, Math.abs(r_bY) * 2, Math.abs(r_bY) * 2);
 		p.line(0, 0, r_bY * Math.cos(_k*_t), r_bY * Math.sin(_k*_t));	// Y方向の線: b(k) * sin(kt)
 		p.push();
 		p.translate( r_bY * Math.cos(_k*_t), r_bY * Math.sin(_k*_t) );	// Y方向移動: b(k) * sin(kt)
@@ -145,6 +142,34 @@ var app_output = function(p){
 			p.line(-W*2, 0, W*2, 0);
 			p.strokeWeight(7);
 			p.stroke(0, 0, 255);
+			p.point(0, 0);
+		}
+		p.pop();
+		p.pop();
+	}
+
+	p.nextCircleX = function( _k /* 現在の次数 */, _f /* フーリエ */, _t /* 媒介変数 */ ){
+		let COEF_MAX = _f.m_aX.length;
+		let r_aX = _f.m_aX[_k];
+		let r_bX = _f.m_bX[_k];
+
+		p.strokeWeight(1);
+		p.stroke(0);
+		p.ellipse(0, 0, Math.abs(r_aX) * 2, Math.abs(r_aX) * 2);
+		p.stroke(255, 128, 128);
+		p.line(0, 0, r_aX * Math.cos(_k*_t), r_aX * Math.sin(_k*_t));            // X方向の線: a(k) * cos(kt)
+		p.push();
+		p.translate( r_aX * Math.cos(_k*_t), r_aX * Math.sin(_k*_t) );       // X方向移動: a(k) * cos(kt)
+		p.ellipse(0, 0, Math.abs(r_bX) * 2, Math.abs(r_bX) * 2);
+		p.line(0, 0, r_bX * Math.sin(_k*_t), r_bX * Math.cos(_k*_t));        // X方向の線: b(k) * sin(kt)
+		p.push();
+		p.translate( r_bX * Math.sin(_k*_t), r_bX * Math.cos(_k*_t) );   // X方向移動: b(k) * sin(kt)
+		if( _k <= COEF_MAX ){
+			this.nextCircleX( _k+1, _f, _t );
+		}else{
+			p.line( 0, -W*2, 0, W*2 );
+			p.strokeWeight(7);
+			p.stroke(255, 0, 0);
 			p.point(0, 0);
 		}
 		p.pop();
