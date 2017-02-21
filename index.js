@@ -82,7 +82,7 @@ var app_output = function(p){
 	}
 
 	p.draw = function(){
-		console.log(p.frameCount);
+		//console.log(p.frameCount);
 		p.colorMode(p.RGB, 255);
 		p.background(255);
 		p.noStroke();
@@ -94,16 +94,13 @@ var app_output = function(p){
 		p.rect(W, W, W, W);
 		p.stroke(0);
 
-		replaceChars();
-
 		/**
-		 * weight two Fourier series and create strokes
+		 * determine Fourier series to visualize on output frame
 		 */
 		var fourier_charW = [];
 		var charW = [];
 		var _ratio = 0.5;
 
-		//if( fourier_chars.length >= 2 ){
 		switch(fourier_chars.length){
 			case 0:
 				return;
@@ -120,6 +117,8 @@ var app_output = function(p){
 				break;
 
 			default:
+				replaceChars();
+
 				for(let si = 0; si < fourier_char1.length; si++){
 					let fourier1 = fourier_char1[si];
 					let fourier2 = fourier_char2[si];
@@ -184,8 +183,13 @@ var app_output = function(p){
 	this.replaceChars = function(){
 		if( p.frameCount % 200 > 0 ) return;
 
-		console.log("200");
-		//
+		// fourier_chars, i1, i2 を使って，対象となるFourierを選ぶ
+		let LEN_CHARS = fourier_chars.length;
+		i1 = (i1+1) % LEN_CHARS;
+		i2 = (i2+1) % LEN_CHARS;
+		console.log("i1: "+ i1 +", i2: "+ i2);
+		fourier_char1 = fourier_chars[i1];
+		fourier_char2 = fourier_chars[i2];
 	}
 
 	p.updateFourier = function(){
@@ -200,6 +204,8 @@ var app_output = function(p){
 		*/
 		if( fourier_chars.length > 0 ){
 			fourier_char2 = fourier_char1;
+			i1 = 0;
+			i2 = 1;
 		}
 		var last = fourier_chars.length-1;
 		fourier_char1 = fourier_chars[last];
