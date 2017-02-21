@@ -103,7 +103,7 @@ var app_output = function(p){
 		var _ratio = 0.5;
 
 		//if( fourier_chars.length >= 2 ){
-		switch fourier_chars.length{
+		switch(fourier_chars.length){
 			case 0:
 				return;
 				//break;
@@ -142,9 +142,6 @@ var app_output = function(p){
 				}
 				break;
 		}
-		//}else if( fourier_chars.length == 1 ){
-		//}else{
-		//}
 
 		/**
 		 * draw strokes
