@@ -81,6 +81,7 @@ var app_output = function(p){
 	}
 
 	p.draw = function(){
+		console.log(p.frameCount);
 		p.colorMode(p.RGB, 255);
 		p.background(255);
 		p.noStroke();
@@ -92,7 +93,7 @@ var app_output = function(p){
 		p.rect(W, W, W, W);
 		p.stroke(0);
 
-		//if( char_stroke.length == 0 ) return;
+		replaceChars();
 
 		/**
 		 * weight two Fourier series and create strokes
@@ -101,45 +102,49 @@ var app_output = function(p){
 		var charW = [];
 		var _ratio = 0.5;
 
-		if( fourier_char1.length > 0 && fourier_char2.length > 0 ){
-			for(let si = 0; si < fourier_char1.length; si++){
-				let fourier1 = fourier_char1[si];
-				let fourier2 = fourier_char2[si];
-				let len_pointsW = parseInt(fourier1.len_points * (1-_ratio) + fourier2.len_points * _ratio);
-				//console.log(fourier1.len_points + ", " + fourier2.len_points);
-				//console.log("weighted len:" + len_pointsW);
+		//if( fourier_chars.length >= 2 ){
+		switch fourier_chars.length{
+			case 0:
+				return;
+				//break;
 
-				var fourierW = new Fourier( len_pointsW );
-
-				for(let k = 0; k < fourier1.m_aX.length; k++){
-				    let w_aX = fourier1.m_aX[k] * (1-_ratio) + fourier2.m_aX[k] * _ratio;
-				    let w_aY = fourier1.m_aY[k] * (1-_ratio) + fourier2.m_aY[k] * _ratio;
-				    let w_bX = fourier1.m_bX[k] * (1-_ratio) + fourier2.m_bX[k] * _ratio;
-				    let w_bY = fourier1.m_bY[k] * (1-_ratio) + fourier2.m_bY[k] * _ratio;
-				    fourierW.m_aX[k] = w_aX;
-				    fourierW.m_aY[k] = w_aY;
-				    fourierW.m_bX[k] = w_bX;
-				    fourierW.m_bY[k] = w_bY;
+			case 1:
+				for(let si = 0; si < fourier_char1.length; si++){
+					let fourier1 = fourier_char1[si];
+					var strokeW = new Stroke();
+					strokeW.p_list = fourier1.restorePoints();
+					charW.push( strokeW );
 				}
-				//console.log("fourierW.m_aX: "+ fourierW.m_aX);
-				fourier_charW.push( fourierW );
+				break;
 
-				var strokeW = new Stroke();
-				strokeW.p_list = fourierW.restorePoints();
-				charW.push( strokeW );
-			}
-		}else if( fourier_char1.length > 0 && fourier_char2.length == 0 ){
-			for(let si = 0; si < fourier_char1.length; si++){
-				let fourier1 = fourier_char1[si];
-				var strokeW = new Stroke();
-				strokeW.p_list = fourier1.restorePoints();
-				charW.push( strokeW );
-			}
-		}else{
-			return;
+			default:
+				for(let si = 0; si < fourier_char1.length; si++){
+					let fourier1 = fourier_char1[si];
+					let fourier2 = fourier_char2[si];
+					let len_pointsW = parseInt(fourier1.len_points * (1-_ratio) + fourier2.len_points * _ratio);
+					var fourierW = new Fourier( len_pointsW );
+
+					for(let k = 0; k < fourier1.m_aX.length; k++){
+					    let w_aX = fourier1.m_aX[k] * (1-_ratio) + fourier2.m_aX[k] * _ratio;
+					    let w_aY = fourier1.m_aY[k] * (1-_ratio) + fourier2.m_aY[k] * _ratio;
+					    let w_bX = fourier1.m_bX[k] * (1-_ratio) + fourier2.m_bX[k] * _ratio;
+					    let w_bY = fourier1.m_bY[k] * (1-_ratio) + fourier2.m_bY[k] * _ratio;
+					    fourierW.m_aX[k] = w_aX;
+					    fourierW.m_aY[k] = w_aY;
+					    fourierW.m_bX[k] = w_bX;
+					    fourierW.m_bY[k] = w_bY;
+					}
+					fourier_charW.push( fourierW );
+
+					var strokeW = new Stroke();
+					strokeW.p_list = fourierW.restorePoints();
+					charW.push( strokeW );
+				}
+				break;
 		}
-
-		//console.log( charW.length );
+		//}else if( fourier_chars.length == 1 ){
+		//}else{
+		//}
 
 		/**
 		 * draw strokes
@@ -148,7 +153,6 @@ var app_output = function(p){
 		p.stroke(0);
 		for(let si = 0; si < charW.length; si++){
 			let list = charW[si].p_list;
-			//console.log(si + ": " + list.length);
 			for(let pi = 0; pi < list.length; pi++){
 				p.point( list[pi].x, list[pi].y );
 			}
@@ -157,12 +161,7 @@ var app_output = function(p){
 		/**
 		 * draw circular motions
 		 */
-		
-		//var last = fourier_chars.length-1;
-		//var fourier_list = fourier_chars[last];
-
 		p.strokeWeight(1);
-		console.log( "fourierW: "+ fourier_charW.length );
 		for(let i = 0; i < fourier_charW.length; i++){
 			var col = parseFloat(i * 100) / fourier_charW.length;
 			var f = fourier_charW[i];
@@ -170,7 +169,7 @@ var app_output = function(p){
 
 		    p.colorMode(p.HSB, 100);
 			p.noFill();
-		    p.stroke(col, 100, 100);
+		    p.stroke(col, 20, 100);
 		    p.push();
 		    p.translate( f.m_aX[0]/2, p.height * 3/4 );
 		    p.nextCircleX(1, f, t);
@@ -183,8 +182,14 @@ var app_output = function(p){
 		
 	}
 
+	this.replaceChars = function(){
+		if( p.frameCount % 200 > 0 ) return;
+
+		console.log("200");
+		//
+	}
+
 	p.updateFourier = function(){
-		var last = fourier_chars.length-1;
 		/*
 		char_stroke = [];
 		for(let i = 0; i < char_last.length; i++){
@@ -197,9 +202,13 @@ var app_output = function(p){
 		if( fourier_char1.length > 0 ){
 			fourier_char2 = fourier_char1;
 		}
+		var last = fourier_chars.length-1;
 		fourier_char1 = fourier_chars[last];
 	}
 
+	/**
+	 * draw X degrees of Fourier series as circular motions
+	 */
 	p.nextCircleX = function( _k /* 現在の次数 */, _f /* フーリエ */, _t /* 媒介変数 */ ){
 		let COEF_MAX = _f.m_aX.length;
 		let r_aX = _f.m_aX[_k];
@@ -228,6 +237,9 @@ var app_output = function(p){
 		p.pop();
 	}
 
+	/**
+	 * draw Y degrees of Fourier series as circular motions
+	 */
 	p.nextCircleY = function( _k /* 現在の次数 */, _f /* フーリエ */, _t /* 媒介変数 */ ){
 		let COEF_MAX = _f.m_aY.length;
 		let r_aY = _f.m_aY[_k];
