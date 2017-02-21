@@ -74,6 +74,7 @@ var app_output = function(p){
 	var char_stroke = [];
 	var fourier_char1 = [];
 	var fourier_char2 = [];
+	var i1, i2;
 
 	p.setup = function(){
 		p.createCanvas(W * 2, W * 2);
@@ -111,6 +112,7 @@ var app_output = function(p){
 			case 1:
 				for(let si = 0; si < fourier_char1.length; si++){
 					let fourier1 = fourier_char1[si];
+					fourier_charW.push( fourier1 );
 					var strokeW = new Stroke();
 					strokeW.p_list = fourier1.restorePoints();
 					charW.push( strokeW );
@@ -196,7 +198,7 @@ var app_output = function(p){
 			char_stroke.push(s);
 		}
 		*/
-		if( fourier_char1.length > 0 ){
+		if( fourier_chars.length > 0 ){
 			fourier_char2 = fourier_char1;
 		}
 		var last = fourier_chars.length-1;
