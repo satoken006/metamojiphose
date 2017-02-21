@@ -97,6 +97,7 @@ var app_output = function(p){
 		/**
 		 * weight two Fourier series and create strokes
 		 */
+		var fourier_charW = [];
 		var charW = [];
 		var _ratio = 0.5;
 
@@ -107,7 +108,7 @@ var app_output = function(p){
 				let len_pointsW = parseInt(fourier1.len_points * (1-_ratio) + fourier2.len_points * _ratio);
 				//console.log(fourier1.len_points + ", " + fourier2.len_points);
 				//console.log("weighted len:" + len_pointsW);
-				
+
 				var fourierW = new Fourier( len_pointsW );
 
 				for(let k = 0; k < fourier1.m_aX.length; k++){
@@ -120,7 +121,8 @@ var app_output = function(p){
 				    fourierW.m_bX[k] = w_bX;
 				    fourierW.m_bY[k] = w_bY;
 				}
-				console.log("fourierW.m_aX: "+ fourierW.m_aX);
+				//console.log("fourierW.m_aX: "+ fourierW.m_aX);
+				fourier_charW.push( fourierW );
 
 				var strokeW = new Stroke();
 				strokeW.p_list = fourierW.restorePoints();
@@ -146,25 +148,24 @@ var app_output = function(p){
 		p.stroke(0);
 		for(let si = 0; si < charW.length; si++){
 			let list = charW[si].p_list;
-			console.log(si + ": " + list.length);
+			//console.log(si + ": " + list.length);
 			for(let pi = 0; pi < list.length; pi++){
 				p.point( list[pi].x, list[pi].y );
 			}
 		}
-		
 
 		/**
 		 * draw circular motions
 		 */
-		/*
-		var last = fourier_chars.length-1;
+		
+		//var last = fourier_chars.length-1;
 		//var fourier_list = fourier_chars[last];
-		var fourier_list = fourier1;
 
 		p.strokeWeight(1);
-		for(let i = 0; i < fourier_list.length; i++){
-			var col = parseFloat(i * 100) / fourier_list.length;
-			var f = fourier_list[i];
+		console.log( "fourierW: "+ fourier_charW.length );
+		for(let i = 0; i < fourier_charW.length; i++){
+			var col = parseFloat(i * 100) / fourier_charW.length;
+			var f = fourier_charW[i];
 			var t = 2 * Math.PI * (p.frameCount % f.len_points)/f.len_points - Math.PI;
 
 		    p.colorMode(p.HSB, 100);
@@ -175,11 +176,11 @@ var app_output = function(p){
 		    p.nextCircleX(1, f, t);
 		    p.pop();
 		    p.push();
-		    p.translate(p.width * 3/4, f.m_aY[0]/2);
+		    p.translate( p.width * 3/4, f.m_aY[0]/2 );
 		    p.nextCircleY(1, f, t);
 		    p.pop();
 		}
-		*/
+		
 	}
 
 	p.updateFourier = function(){
