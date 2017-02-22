@@ -169,7 +169,7 @@ var app_output = function(p){
 
 		    p.colorMode(p.HSB, 100);
 			p.noFill();
-		    p.stroke(col, 20, 100);
+		    p.stroke(col, 100, 100);
 		    p.push();
 		    p.translate( f.m_aX[0]/2, p.height * 3/4 );
 		    p.nextCircleX(1, f, t);
