@@ -165,7 +165,8 @@ var app_output = function(p){
 		for(let i = 0; i < fourier_charW.length; i++){
 			var col = parseFloat(i * 100) / fourier_charW.length;
 			var f = fourier_charW[i];
-			var t = 2 * Math.PI * (p.frameCount % f.len_points)/f.len_points - Math.PI;
+			//var t = 2 * Math.PI * (p.frameCount % f.len_points)/f.len_points - Math.PI;
+			var t = 2 * Math.PI * (p.frameCount % 200)/200 - Math.PI;
 
 		    p.colorMode(p.HSB, 100);
 			p.noFill();
