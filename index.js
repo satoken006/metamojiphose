@@ -193,7 +193,7 @@ var app_output = function(p){
 		console.log("i1: "+ i1 +", i2: "+ i2);
 		fourier_char1 = fourier_chars[i1];
 		fourier_char2 = fourier_chars[i2];
-		_ratio = 0
+		_ratio = 0;
 	}
 
 	p.updateFourier = function(){
