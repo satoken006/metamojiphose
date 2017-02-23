@@ -147,30 +147,25 @@ var app_output = function(p){
 		}
 
 		/**
-		 * draw strokes
+		 * draw strokes and circular motions
 		 */
-		p.strokeWeight(2.5);
-		p.stroke(0);
-		for(let si = 0; si < charW.length; si++){
-			let list = charW[si].p_list;
+		p.strokeWeight(1);
+	    p.colorMode(p.HSB, 100);
+		p.noFill();
+		for(let i = 0; i < fourier_charW.length; i++){
+			p.strokeWeight(2.5);
+			var col = parseFloat(i * 100) / fourier_charW.length;
+		    p.stroke(col, 100, 100);
+			let list = charW[i].p_list;
 			for(let pi = 0; pi < list.length; pi++){
 				p.point( list[pi].x, list[pi].y );
 			}
-		}
 
-		/**
-		 * draw circular motions
-		 */
-		p.strokeWeight(1);
-		for(let i = 0; i < fourier_charW.length; i++){
-			var col = parseFloat(i * 100) / fourier_charW.length;
+
 			var f = fourier_charW[i];
 			//var t = 2 * Math.PI * (p.frameCount % f.len_points)/f.len_points - Math.PI;
 			var t = 2 * Math.PI * (p.frameCount % 200)/200 - Math.PI;
 
-		    p.colorMode(p.HSB, 100);
-			p.noFill();
-		    p.stroke(col, 100, 100);
 		    p.push();
 		    p.translate( f.m_aX[0]/2, p.height * 3/4 );
 		    p.nextCircleX(1, f, t);
