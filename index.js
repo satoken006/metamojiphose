@@ -70,7 +70,8 @@ var app_input = function(p){
 }
 
 var app_output = function(p){
-	var W = 300;
+	let W = 300;
+	let SECTION = 200;
 	var char_stroke = [];
 	var fourier_char1 = [];
 	var fourier_char2 = [];
@@ -96,7 +97,7 @@ var app_output = function(p){
 		p.stroke(0);
 
 		/**
-		 * determine Fourier series to visualize on output frame
+		 * determine Fourier series to visualize in output frame
 		 */
 		var fourier_charW = [];
 		var charW = [];
@@ -117,7 +118,9 @@ var app_output = function(p){
 				break;
 
 			default:
-				replaceChars();
+				if( p.frameCount % SECTION == 0 ){
+					replaceChars();
+				}
 
 				for(let si = 0; si < fourier_char1.length; si++){
 					let fourier1 = fourier_char1[si];
@@ -142,7 +145,7 @@ var app_output = function(p){
 					charW.push( strokeW );
 				}
 
-				_ratio += 0.005;
+				_ratio += parseFloat(1) / SECTION;
 				break;
 		}
 
@@ -163,7 +166,7 @@ var app_output = function(p){
 
 			var f = fourier_charW[i];
 			//var t = 2 * Math.PI * (p.frameCount % f.len_points)/f.len_points - Math.PI;
-			var t = 2 * Math.PI * (p.frameCount % 200)/200 - Math.PI;
+			var t = 2 * Math.PI * (p.frameCount % SECTION)/SECTION - Math.PI;
 
 			p.push();
 			p.translate( f.m_aX[0]/2, p.height * 3/4 );
@@ -250,8 +253,6 @@ var app_output = function(p){
 	}
 
 	this.replaceChars = function(){
-		if( p.frameCount % 200 > 0 ) return;
-
 		// fourier_chars, i1, i2 を使って，対象となるFourierを選ぶ
 		let LEN_CHARS = fourier_chars.length;
 		i1 = (i1+1) % LEN_CHARS;
