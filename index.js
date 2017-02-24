@@ -147,33 +147,32 @@ var app_output = function(p){
 		}
 
 		/**
-		 * draw strokes and circular motions
-		 */
+		* draw strokes and circular motions
+		*/
 		p.strokeWeight(1);
-	    p.colorMode(p.HSB, 100);
+		p.colorMode(p.HSB, 100);
 		p.noFill();
 		for(let i = 0; i < fourier_charW.length; i++){
 			p.strokeWeight(2.5);
 			var col = parseFloat(i * 100) / fourier_charW.length;
-		    p.stroke(col, 100, 100);
+			p.stroke(col, 100, 100);
 			let list = charW[i].p_list;
 			for(let pi = 0; pi < list.length; pi++){
 				p.point( list[pi].x, list[pi].y );
 			}
 
-
 			var f = fourier_charW[i];
 			//var t = 2 * Math.PI * (p.frameCount % f.len_points)/f.len_points - Math.PI;
 			var t = 2 * Math.PI * (p.frameCount % 200)/200 - Math.PI;
 
-		    p.push();
-		    p.translate( f.m_aX[0]/2, p.height * 3/4 );
-		    p.nextCircleX(1, f, t);
-		    p.pop();
-		    p.push();
-		    p.translate( p.width * 3/4, f.m_aY[0]/2 );
-		    p.nextCircleY(1, f, t);
-		    p.pop();
+			p.push();
+			p.translate( f.m_aX[0]/2, p.height * 3/4 );
+			p.nextCircleX(1, f, t);
+			p.pop();
+			p.push();
+			p.translate( p.width * 3/4, f.m_aY[0]/2 );
+			p.nextCircleY(1, f, t);
+			p.pop();
 		}
 		
 	}
@@ -191,16 +190,8 @@ var app_output = function(p){
 		_ratio = 0;
 	}
 
+	/*
 	p.updateFourier = function(){
-		/*
-		char_stroke = [];
-		for(let i = 0; i < char_last.length; i++){
-			var f = char_last[i];
-			var s = new Stroke();
-			s.p_list = f.restorePoints();
-			char_stroke.push(s);
-		}
-		*/
 		if( fourier_chars.length > 0 ){
 			fourier_char2 = fourier_char1;
 			i1 = 0;
@@ -209,6 +200,7 @@ var app_output = function(p){
 		var last = fourier_chars.length-1;
 		fourier_char1 = fourier_chars[last];
 	}
+	*/
 
 	/**
 	 * draw X degrees of Fourier series as circular motions
