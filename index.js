@@ -177,20 +177,6 @@ var app_output = function(p){
 		
 	}
 
-	this.replaceChars = function(){
-		if( p.frameCount % 200 > 0 ) return;
-
-		// fourier_chars, i1, i2 を使って，対象となるFourierを選ぶ
-		let LEN_CHARS = fourier_chars.length;
-		i1 = (i1+1) % LEN_CHARS;
-		i2 = (i2+1) % LEN_CHARS;
-		console.log("i1: "+ i1 +", i2: "+ i2);
-		fourier_char1 = fourier_chars[i1];
-		fourier_char2 = fourier_chars[i2];
-		_ratio = 0;
-	}
-
-	/*
 	p.updateFourier = function(){
 		if( fourier_chars.length > 0 ){
 			fourier_char2 = fourier_char1;
@@ -200,7 +186,6 @@ var app_output = function(p){
 		var last = fourier_chars.length-1;
 		fourier_char1 = fourier_chars[last];
 	}
-	*/
 
 	/**
 	 * draw X degrees of Fourier series as circular motions
@@ -262,6 +247,19 @@ var app_output = function(p){
 		}
 		p.pop();
 		p.pop();
+	}
+
+	this.replaceChars = function(){
+		if( p.frameCount % 200 > 0 ) return;
+
+		// fourier_chars, i1, i2 を使って，対象となるFourierを選ぶ
+		let LEN_CHARS = fourier_chars.length;
+		i1 = (i1+1) % LEN_CHARS;
+		i2 = (i2+1) % LEN_CHARS;
+		console.log("i1: "+ i1 +", i2: "+ i2);
+		fourier_char1 = fourier_chars[i1];
+		fourier_char2 = fourier_chars[i2];
+		_ratio = 0;
 	}
 
 }
