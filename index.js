@@ -102,6 +102,7 @@ var app_output = function(p){
 		 */
 		var fourier_charW = [];
 		var charW = [];
+		console.log( "animeFrameCount: " + animeFrameCount);
 
 		switch(fourier_chars.length){
 			case 0:
