@@ -72,6 +72,7 @@ var app_input = function(p){
 var app_output = function(p){
 	let W = 300;
 	let SECTION = 200;
+	var animeFrameCount = 0;
 	var char_stroke = [];
 	var fourier_char1 = [];
 	var fourier_char2 = [];
@@ -88,9 +89,9 @@ var app_output = function(p){
 		p.colorMode(p.RGB, 255);
 		p.background(255);
 		p.noStroke();
-		p.fill(228); // fourier y
+		p.fill(228);
 		p.rect(0, W, W, W);
-		p.fill(228); // fourier y
+		p.fill(228);
 		p.rect(W, 0, W, W);
 		p.fill(204);
 		p.rect(W, W, W, W);
@@ -118,7 +119,9 @@ var app_output = function(p){
 				break;
 
 			default:
-				if( p.frameCount % SECTION == 0 ){
+				animeFrameCount++;
+
+				if( animeFrameCount % SECTION == 0 ){
 					replaceChars();
 				}
 
@@ -181,13 +184,16 @@ var app_output = function(p){
 	}
 
 	p.updateFourier = function(){
-		if( fourier_chars.length > 0 ){
-			fourier_char2 = fourier_char1;
-			i1 = 0;
-			i2 = 1;
+		switch( fourier_chars.length ){
+			case 1:
+				i1 = 0;
+				fourier_char1 = fourier_chars[i1];
+				break;
+			case 2:
+				i2 = 1;
+				fourier_char2 = fourier_chars[i2];
+				break;
 		}
-		var last = fourier_chars.length-1;
-		fourier_char1 = fourier_chars[last];
 	}
 
 	/**
@@ -252,12 +258,15 @@ var app_output = function(p){
 		p.pop();
 	}
 
+	/**
+	 * A weighted character is made of these characters
+	 */
 	this.replaceChars = function(){
 		// fourier_chars, i1, i2 を使って，対象となるFourierを選ぶ
 		let LEN_CHARS = fourier_chars.length;
-		i1 = (i1+1) % LEN_CHARS;
+		i1 = i2;
 		i2 = (i2+1) % LEN_CHARS;
-		console.log("i1: "+ i1 +", i2: "+ i2);
+		//console.log("i1: "+ i1 +", i2: "+ i2);
 		fourier_char1 = fourier_chars[i1];
 		fourier_char2 = fourier_chars[i2];
 		_ratio = 0;
