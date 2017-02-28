@@ -13,13 +13,7 @@ Spline.prototype.getSpline = function(_applet, _arrayPt, _multiple) {
         _retPoints[i] = _points[i];
         _retPoints[_retPoints.length - i - 1] = _points[i];
     }
-    /*
-      PointF [] _retPoints = new PointF [_points.length*2-1];
-      for ( int i=0; i<_points.length; i++ ) {
-        _retPoints[i] = _points[i];
-        _retPoints[_retPoints.length-i-1]  = _points[i];
-      }
-    */
+    
     return _retPoints;
 }
 
