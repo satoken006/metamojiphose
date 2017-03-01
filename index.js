@@ -5,13 +5,14 @@ var DEG_MAX = 10;
  * create canvas to INPUT strokes
  */
 var app_input = function(p){
+	var CANVAS_W = 200;
 	var THR_LENGTH = 10;
 	var spline;
 	var char_stroke = [];
 	var new_stroke;
 
 	p.setup = function(){
-		p.createCanvas(300, 300);
+		p.createCanvas(CANVAS_W, CANVAS_W);
 		p.strokeWeight(2.5);
 		new_stroke = [];
 		spline = new Spline();
@@ -200,7 +201,7 @@ var app_output = function(p){
 	/**
 	 * draw X degrees of Fourier series as circular motions
 	 */
-	p.nextCircleX = function( _k /* 現在の次数 */, _f /* フーリエ */, _t /* 媒介変数 */ ){
+	p.nextWheelX = function( _k /* 現在の次数 */, _f /* フーリエ */, _t /* 媒介変数 */ ){
 		let COEF_MAX = _f.m_aX.length;
 		let r_aX = _f.m_aX[_k];
 		let r_bX = _f.m_bX[_k];
@@ -231,7 +232,7 @@ var app_output = function(p){
 	/**
 	 * draw Y degrees of Fourier series as circular motions
 	 */
-	p.nextCircleY = function( _k /* 現在の次数 */, _f /* フーリエ */, _t /* 媒介変数 */ ){
+	p.nextWheelY = function( _k /* 現在の次数 */, _f /* フーリエ */, _t /* 媒介変数 */ ){
 		let COEF_MAX = _f.m_aY.length;
 		let r_aY = _f.m_aY[_k];
 		let r_bY = _f.m_bY[_k];
