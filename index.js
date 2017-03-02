@@ -68,6 +68,10 @@ var app_input = function(p){
 		fourier_chars.push( fourier_list );
 		char_stroke = [];
 	}
+
+	p.deleteLastStroke = function(){
+		char_stroke.pop();
+	}
 }
 
 var app_output = function(p){

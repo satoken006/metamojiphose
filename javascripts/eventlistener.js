@@ -4,3 +4,9 @@ $(function(){
 		canvas_output.updateFourier();
 	});
 });
+
+$(function(){
+    $("#deleteButton").on("click", function(){
+        canvas_input.deleteLastStroke();
+    });
+});
