@@ -174,11 +174,11 @@ var app_output = function(p){
 
 			p.push();
 			p.translate( f.m_aX[0]/2, p.height * 3/4 );
-			p.nextCircleX(1, f, t);
+			p.nextWheelX(1, f, t);
 			p.pop();
 			p.push();
 			p.translate( p.width * 3/4, f.m_aY[0]/2 );
-			p.nextCircleY(1, f, t);
+			p.nextWheelY(1, f, t);
 			p.pop();
 		}
 		
