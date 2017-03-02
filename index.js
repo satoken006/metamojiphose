@@ -102,7 +102,7 @@ var app_output = function(p){
 		 */
 		var fourier_charW = [];
 		var charW = [];
-		console.log( "animeFrameCount: " + animeFrameCount);
+		//console.log( "animeFrameCount: " + animeFrameCount);
 
 		switch(fourier_chars.length){
 			case 0:
@@ -217,7 +217,7 @@ var app_output = function(p){
 		p.push();
 		p.translate( r_bX * Math.sin(_k*_t), r_bX * Math.cos(_k*_t) );	// X方向移動: b(k) * sin(kt)
 		if( _k <= COEF_MAX ){
-			this.nextCircleX( _k+1, _f, _t );
+			this.nextWheelX( _k+1, _f, _t );
 		}else{
 			p.line( 0, -W*2, 0, W*2 );
 			p.strokeWeight(7);
@@ -248,7 +248,7 @@ var app_output = function(p){
 		p.push();
 		p.translate( r_bY * Math.cos(_k*_t), r_bY * Math.sin(_k*_t) );	// Y方向移動: b(k) * sin(kt)
 		if( _k <= COEF_MAX ){
-			p.nextCircleY( _k+1, _f, _t );
+			p.nextWheelY( _k+1, _f, _t );
 		}else{
 			p.line(-W*2, 0, W*2, 0);
 			p.strokeWeight(7);
