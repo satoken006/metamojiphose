@@ -169,7 +169,6 @@ var app_output = function(p){
 			}
 
 			var f = fourier_charW[i];
-			//var t = 2 * Math.PI * (p.frameCount % f.len_points)/f.len_points - Math.PI;
 			var t = 2 * Math.PI * (p.frameCount % SECTION)/SECTION - Math.PI;
 
 			p.push();
@@ -206,16 +205,14 @@ var app_output = function(p){
 		let r_bX = _f.m_bX[_k];
 
 		p.strokeWeight(1);
-		//p.stroke(0);
 		p.ellipse(0, 0, Math.abs(r_aX) * 2, Math.abs(r_aX) * 2);
-		//p.stroke(255, 128, 128);
-		p.line(0, 0, r_aX * Math.cos(_k*_t), r_aX * Math.sin(_k*_t));	// X方向の線: a(k) * cos(kt)
+		p.line(0, 0, r_aX * Math.cos(_k*_t), r_aX * Math.sin(_k*_t));	// line of X coordinate: a(k) * cos(kt)
 		p.push();
-		p.translate( r_aX * Math.cos(_k*_t), r_aX * Math.sin(_k*_t) );	// X方向移動: a(k) * cos(kt)
+		p.translate( r_aX * Math.cos(_k*_t), r_aX * Math.sin(_k*_t) );	// move horizontally   : a(k) * cos(kt)
 		p.ellipse(0, 0, Math.abs(r_bX) * 2, Math.abs(r_bX) * 2);
-		p.line(0, 0, r_bX * Math.sin(_k*_t), r_bX * Math.cos(_k*_t));	// X方向の線: b(k) * sin(kt)
+		p.line(0, 0, r_bX * Math.sin(_k*_t), r_bX * Math.cos(_k*_t));	// line of X coordinate: b(k) * sin(kt)
 		p.push();
-		p.translate( r_bX * Math.sin(_k*_t), r_bX * Math.cos(_k*_t) );	// X方向移動: b(k) * sin(kt)
+		p.translate( r_bX * Math.sin(_k*_t), r_bX * Math.cos(_k*_t) );	// move horizontally   : b(k) * sin(kt)
 		if( _k <= COEF_MAX ){
 			this.nextWheelX( _k+1, _f, _t );
 		}else{
@@ -237,22 +234,19 @@ var app_output = function(p){
 		let r_bY = _f.m_bY[_k];
 
 		p.strokeWeight(1);
-		//p.stroke(0);
 		p.ellipse(0, 0, Math.abs(r_aY) * 2, Math.abs(r_aY) * 2);
-		//p.stroke(128, 128, 255);
-		p.line(0, 0, r_aY * Math.sin(_k*_t), r_aY * Math.cos(_k*_t));	// Y方向の線: a(k) * cos(kt)
+		p.line(0, 0, r_aY * Math.sin(_k*_t), r_aY * Math.cos(_k*_t));	// line of Y coordinate: a(k) * cos(kt)
 		p.push();
-		p.translate( r_aY * Math.sin(_k*_t), r_aY * Math.cos(_k*_t) );	// Y方向移動: a(k) * cos(kt)
+		p.translate( r_aY * Math.sin(_k*_t), r_aY * Math.cos(_k*_t) );	// move vertically     : a(k) * cos(kt)
 		p.ellipse(0, 0, Math.abs(r_bY) * 2, Math.abs(r_bY) * 2);
-		p.line(0, 0, r_bY * Math.cos(_k*_t), r_bY * Math.sin(_k*_t));	// Y方向の線: b(k) * sin(kt)
+		p.line(0, 0, r_bY * Math.cos(_k*_t), r_bY * Math.sin(_k*_t));	// line of Y coordinate: b(k) * sin(kt)
 		p.push();
-		p.translate( r_bY * Math.cos(_k*_t), r_bY * Math.sin(_k*_t) );	// Y方向移動: b(k) * sin(kt)
+		p.translate( r_bY * Math.cos(_k*_t), r_bY * Math.sin(_k*_t) );	// move vertically     : b(k) * sin(kt)
 		if( _k <= COEF_MAX ){
 			p.nextWheelY( _k+1, _f, _t );
 		}else{
 			p.line(-W*2, 0, W*2, 0);
 			p.strokeWeight(7);
-			//p.stroke(0, 0, 255);
 			p.point(0, 0);
 		}
 		p.pop();
@@ -263,7 +257,6 @@ var app_output = function(p){
 	 * A weighted character is made of these characters
 	 */
 	this.replaceChars = function(){
-		// fourier_chars, i1, i2 を使って，対象となるFourierを選ぶ
 		let LEN_CHARS = fourier_chars.length;
 		i1 = i2;
 		i2 = (i2+1) % LEN_CHARS;
