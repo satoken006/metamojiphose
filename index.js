@@ -1,18 +1,18 @@
 var fourier_chars = [];
 var DEG_MAX = 10;
+let W = 200;
 
 /**
  * create canvas to INPUT strokes
  */
 var app_input = function(p){
-	var CANVAS_W = 200;
 	var THR_LENGTH = 10;
 	var spline;
 	var char_stroke = [];
 	var new_stroke;
 
 	p.setup = function(){
-		p.createCanvas(CANVAS_W, CANVAS_W);
+		p.createCanvas(W, W);
 		p.strokeWeight(2.5);
 		new_stroke = [];
 		spline = new Spline();
@@ -71,7 +71,6 @@ var app_input = function(p){
 }
 
 var app_output = function(p){
-	let W = 300;
 	let SECTION = 200;
 	var animeFrameCount = 0;
 	var char_stroke = [];
