@@ -1,6 +1,6 @@
 var fourier_chars = [];
 var DEG_MAX = 10;
-let W = 200;
+let W = 300;
 
 /**
  * create canvas to INPUT strokes
