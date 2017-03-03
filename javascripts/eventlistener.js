@@ -1,6 +1,6 @@
 $(function(){
 	$("#sendButton").on("click", function(){
-		canvas_input.sendFourierSeries();
+		canvas_input.sendStrokes();
 		canvas_output.updateFourier();
 	});
 });

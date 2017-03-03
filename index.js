@@ -49,9 +49,11 @@ var app_input = function(p){
 			var list2 = spline.getSpline( this, list, 100 );
 			char_stroke[last].p_list = list2;
 		}
+
+		this.checkStrokeCount();
 	}
 
-	p.sendFourierSeries = function(){
+	p.sendStrokes = function(){
 		if( fourier_chars.length > 0 ){
 			if( fourier_chars[0].length != char_stroke.length ) return;
 		}
@@ -71,6 +73,15 @@ var app_input = function(p){
 
 	p.deleteLastStroke = function(){
 		char_stroke.pop();
+		this.checkStrokeCount();
+	}
+
+	p.checkStrokeCount = function(){
+		if( fourier_chars[0].length != char_stroke.length ){
+			$("#sendButton").prop("disabled", "true");
+		}else{
+			$("#sendButton").prop("disabled", "false");
+		}
 	}
 }
 
