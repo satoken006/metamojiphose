@@ -103,7 +103,6 @@ var app_output = function(p){
 	}
 
 	p.draw = function(){
-		//console.log(p.frameCount);
 		p.colorMode(p.RGB, 255);
 		p.background(255);
 		p.noStroke();
@@ -120,12 +119,10 @@ var app_output = function(p){
 		 */
 		var fourier_charW = [];
 		var charW = [];
-		//console.log( "animeFrameCount: " + animeFrameCount);
 
 		switch(fourier_chars.length){
 			case 0:
 				return;
-				//break;
 
 			case 1:
 				for(let si = 0; si < fourier_char1.length; si++){
@@ -236,7 +233,6 @@ var app_output = function(p){
 		}else{
 			p.line( 0, -W*2, 0, W*2 );
 			p.strokeWeight(7);
-			//p.stroke(255, 0, 0);
 			p.point(0, 0);
 		}
 		p.pop();
@@ -278,7 +274,6 @@ var app_output = function(p){
 		let LEN_CHARS = fourier_chars.length;
 		i1 = i2;
 		i2 = (i2+1) % LEN_CHARS;
-		//console.log("i1: "+ i1 +", i2: "+ i2);
 		fourier_char1 = fourier_chars[i1];
 		fourier_char2 = fourier_chars[i2];
 		_ratio = 0;
