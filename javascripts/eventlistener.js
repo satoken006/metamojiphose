@@ -3,6 +3,7 @@ $(function(){
 		canvas_input.sendStrokes();
 		canvas_output.updateFourier();
         $(this).prop("disabled", "true");
+        $("#sendButton").css("background-color", "#888888");
 	});
 });
 

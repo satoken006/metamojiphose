@@ -10,3 +10,13 @@ body{
 	float: left;
     padding: 10px 10px 10px 10px;
 }
+
+button{
+    font-size: 1.4em;
+    font-weight: bold;
+    padding: 10px 20px;
+
+    background-color: #e8822a;
+    color: #fff;
+    border-style: none;
+}
