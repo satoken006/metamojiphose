@@ -4,7 +4,7 @@ var setColorEnable = function(){
 }
 
 var setColorDisable = function(){
-    $(this).prop("disabled", "true");
+    $("#sendButton").prop("disabled", "true");
     $("#sendButton").css("background-color", "#888888");
 }
 
