@@ -217,7 +217,7 @@ var app_output = function(p){
 	/**
 	 * draw X degrees of Fourier series as circular motions
 	 */
-	p.nextWheelX = function( _k /* 現在の次数 */, _f /* フーリエ */, _t /* 媒介変数 */ ){
+	p.nextWheelX = function( _k /* current degree */, _f /* Fourier object */, _t /* parameter */ ){
 		let COEF_MAX = _f.m_aX.length;
 		let r_aX = _f.m_aX[_k];
 		let r_bX = _f.m_bX[_k];
@@ -246,7 +246,7 @@ var app_output = function(p){
 	/**
 	 * draw Y degrees of Fourier series as circular motions
 	 */
-	p.nextWheelY = function( _k /* 現在の次数 */, _f /* フーリエ */, _t /* 媒介変数 */ ){
+	p.nextWheelY = function( _k /* current degree */, _f /* Fourier object */, _t /* parameter */ ){
 		let COEF_MAX = _f.m_aY.length;
 		let r_aY = _f.m_aY[_k];
 		let r_bY = _f.m_bY[_k];
