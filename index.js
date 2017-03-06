@@ -81,11 +81,9 @@ var app_input = function(p){
 		if( fourier_chars.length == 0 ) return;
 
 		if( fourier_chars[0].length == char_stroke.length ){
-			$("#sendButton").prop("disabled", null);
-			$("#sendButton").css("background-color", "#e8822a");
+			setColorEnable();
 		}else{
-			$("#sendButton").prop("disabled", "true");
-			$("#sendButton").css("background-color", "#888888");
+			setColorDisable();
 		}
 	}
 }
