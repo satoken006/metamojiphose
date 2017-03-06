@@ -50,7 +50,7 @@ var app_input = function(p){
 			char_stroke[last].p_list = list2;
 		}
 
-		this.checkStrokeCount();
+		p.checkStrokeCount();
 	}
 
 	p.sendStrokes = function(){
@@ -69,18 +69,21 @@ var app_input = function(p){
 		}
 		fourier_chars.push( fourier_list );
 		char_stroke = [];
+
 	}
 
 	p.deleteLastStroke = function(){
 		char_stroke.pop();
-		this.checkStrokeCount();
+		p.checkStrokeCount();
 	}
 
 	p.checkStrokeCount = function(){
-		if( fourier_chars[0].length != char_stroke.length ){
-			$("#sendButton").prop("disabled", "true");
+		if( fourier_chars.length == 0 ) return;
+
+		if( fourier_chars[0].length == char_stroke.length ){
+			$("#sendButton").prop("disabled", null);
 		}else{
-			$("#sendButton").prop("disabled", "false");
+			$("#sendButton").prop("disabled", "true");
 		}
 	}
 }
