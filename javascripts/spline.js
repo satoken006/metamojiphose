@@ -94,7 +94,6 @@ Spline.prototype.getSplineValues = function(t, value, multiple) {
     for (i1 = 1; i1 < n; i1++) {
         b[i1] = parseFloat(2.0 * (h[i1] + h[i1 - 1]));
         d[i1] = parseFloat(3.0 * ((value[i1 + 1] - value[i1]) / h[i1] - (value[i1] - value[i1 - 1]) / h[i1 - 1]));
-        //console.log(value[i1+1].toString());
     }
     g[1] = h[1] / b[1];
     for (i1 = 2; i1 < n - 1; i1++) {
